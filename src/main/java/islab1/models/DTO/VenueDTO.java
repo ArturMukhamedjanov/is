@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class VenueDTO {
     private Long id;
+    private Integer creatorId;
     private String name;
     private Integer capacity;
     private VenueType type;

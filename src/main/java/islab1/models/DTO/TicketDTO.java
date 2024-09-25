@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class TicketDTO {
     private long id;
+    private Integer creatorId;
     private String name;
     private CoordinatesDTO coordinates;
     private ZonedDateTime creationDate;

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CoordinatesDTO {
     private Long id;
+    private Integer creatorId;
     private Double x;
     private Long y;
 }

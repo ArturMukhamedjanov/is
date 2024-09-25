@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,10 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @Enumerated(EnumType.STRING)
     private Color eyeColor;

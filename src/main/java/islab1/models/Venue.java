@@ -7,8 +7,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +24,10 @@ public class Venue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @Column(nullable = false)
     private String name;

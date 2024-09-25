@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,10 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, unique = true)
     private long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @Column(nullable = false)
     private String name;
