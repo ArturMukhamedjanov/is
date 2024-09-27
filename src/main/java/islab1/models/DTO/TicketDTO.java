@@ -10,17 +10,17 @@ import lombok.Setter;
 @Setter
 public class TicketDTO {
     private long id;
-    private Integer creatorId;
+    private long creatorId;
     private String name;
-    private CoordinatesDTO coordinates;
+    private long coordinatesId;
     private ZonedDateTime creationDate;
-    private PersonDTO person;
-    private EventDTO event;
+    private long personId;
+    private long eventId;
     private Double price;
     private TicketType type;
     private Long discount;
     private Double number;
     private String comment;
     private Boolean refundable;
-    private VenueDTO venue;
+    private long venueId;
 }

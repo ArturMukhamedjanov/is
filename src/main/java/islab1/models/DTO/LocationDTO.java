@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class LocationDTO {
     private long id;
-    private Integer creatorId;
+    private long creatorId;
     private long x;
     private double y;
     private int z;

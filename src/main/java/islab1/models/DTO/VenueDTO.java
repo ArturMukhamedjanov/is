@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VenueDTO {
-    private Long id;
-    private Integer creatorId;
+    private long id;
+    private long creatorId;
     private String name;
     private Integer capacity;
     private VenueType type;

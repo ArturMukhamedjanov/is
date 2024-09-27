@@ -27,9 +27,9 @@ public class Coordinates {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DOUBLE CHECK (x <= 182)")
     private Double x;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "BIGINT CHECK (y <= 329)")
     private Long y;
 }

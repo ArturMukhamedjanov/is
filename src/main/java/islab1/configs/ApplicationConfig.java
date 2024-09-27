@@ -7,8 +7,12 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 import islab1.repos.UserRepo;
 import lombok.AllArgsConstructor;
@@ -39,7 +43,25 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new PasswordEncoder() {
+
+            @Override
+            public String encode(CharSequence rawPassword) {
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA-384");
+                    byte[] hashedPassword = md.digest(rawPassword.toString().getBytes(StandardCharsets.UTF_8));
+                    return HexFormat.of().formatHex(hashedPassword);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException("SHA-384 algorithm not found", e);
+                }
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encode(rawPassword).equals(encodedPassword);
+            }
+        };
     }
+
 }
 

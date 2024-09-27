@@ -10,4 +10,5 @@ import islab1.models.auth.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long>{
     Optional<User> findByUsername(String username);
+    User getUserByUsername(String username);
 }

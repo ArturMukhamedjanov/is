@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class EventDTO {
     private long id;
-    private Integer creatorId;
+    private long creatorId;
     private String name;
     private Integer minAge;
     private EventType eventType;

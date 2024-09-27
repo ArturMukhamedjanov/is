@@ -8,11 +8,10 @@ import lombok.Setter;
 @Setter
 public class PersonDTO {
     private long id;
+    private long creatorId;
     private Color eyeColor;
     private Color hairColor;
-    private LocationDTO location;
+    private long locationId;
     private Long height;
     private String passportID;
-
-    // Getters and setters
 }
