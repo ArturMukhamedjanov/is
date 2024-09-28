@@ -9,8 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import islab1.models.auth.*;
-
+import islab1.exceptions.ConvertionException;
+import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,4 +39,18 @@ public class Location {
 
     @Column(nullable = false)
     private String name;
+
+    public void setCreator(User creator) throws ConvertionException {
+        if (creator == null) {
+            throw new ConvertionException("Creator cannot be null.");
+        }
+        this.creator = creator;
+    }
+
+    public void setName(String name) throws ConvertionException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new ConvertionException("Name cannot be null or an empty string.");
+        }
+        this.name = name;
+    }
 }

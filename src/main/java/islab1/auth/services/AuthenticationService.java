@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import islab1.auth.AuthenticationRequest;
 import islab1.auth.AuthenticationResponse;
 import islab1.auth.RegisterRequest;
+import islab1.models.auth.AdminRequest;
 import islab1.models.auth.Role;
 import islab1.models.auth.User;
 import islab1.models.auth.User.UserBuilder;
+import islab1.repos.AdminRequestRepo;
 import islab1.repos.UserRepo;
 import lombok.AllArgsConstructor;
 
@@ -18,6 +20,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticationService {
     private final UserRepo userRepo;
+    private final AdminRequestRepo adminRequestRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -60,6 +63,16 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .build();
+    }
+
+    public AuthenticationResponse addRegisterAdminRequest(RegisterRequest request){
+        AdminRequest adminRequest = new AdminRequest();
+        adminRequest.setUsername(request.getUsername());
+        adminRequest.setPassword(request.getPassword());
+        adminRequestRepo.save(adminRequest);
+        return AuthenticationResponse.builder()
+                .token("")
                 .build();
     }
 

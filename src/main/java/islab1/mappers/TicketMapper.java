@@ -5,17 +5,17 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
-import islab1.models.DTO.TicketDTO;
-import islab1.models.Ticket;
-import islab1.models.auth.User;
 import islab1.models.Coordinates;
-import islab1.models.Person;
+import islab1.models.DTO.TicketDTO;
 import islab1.models.Event;
+import islab1.models.Person;
+import islab1.models.Ticket;
 import islab1.models.Venue;
-import islab1.repos.UserRepo;
+import islab1.models.auth.User;
 import islab1.repos.CoordinatesRepo;
-import islab1.repos.PersonRepo;
 import islab1.repos.EventRepo;
+import islab1.repos.PersonRepo;
+import islab1.repos.UserRepo;
 import islab1.repos.VenueRepo;
 import lombok.AllArgsConstructor;
 
@@ -36,11 +36,6 @@ public class TicketMapper {
             Person person = personRepo.getReferenceById(dto.getPersonId());
             Event event = eventRepo.getReferenceById(dto.getEventId());
             Venue venue = venueRepo.getReferenceById(dto.getVenueId());
-
-            if (creator == null || coordinates == null || person == null || venue == null || event == null) {
-                throw new ConvertionException("Required entity not found");
-            }
-
             Ticket ticket = new Ticket();
             ticket.setId(dto.getId());
             ticket.setCreator(creator);
@@ -57,6 +52,8 @@ public class TicketMapper {
             ticket.setRefundable(dto.getRefundable());
             ticket.setVenue(venue);
             return ticket;
+        } catch (ConvertionException e) {
+            throw e;
         } catch (EntityNotFoundException e) {
             throw new ConvertionException(e.getMessage());
         }

@@ -31,6 +31,8 @@ public class LocationMapper {
             location.setZ(dto.getZ());
             location.setName(dto.getName());
             return location;
+        } catch (ConvertionException e) {
+            throw e;
         } catch (EntityNotFoundException e) {
             throw new ConvertionException(e.getMessage());
         }

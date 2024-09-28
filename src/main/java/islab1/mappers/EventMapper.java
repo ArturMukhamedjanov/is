@@ -20,9 +20,6 @@ public class EventMapper {
     public Event toEntity(EventDTO dto) throws ConvertionException {
         try {
             User creator = userRepo.getReferenceById(dto.getCreatorId());
-            if (creator == null) {
-                throw new ConvertionException("Creator was not found");
-            }
             Event event = new Event();
             event.setId(dto.getId());
             event.setCreator(creator);
@@ -30,6 +27,8 @@ public class EventMapper {
             event.setMinAge(dto.getMinAge());
             event.setEventType(dto.getEventType());
             return event;
+        } catch (ConvertionException e) {
+            throw e;
         } catch (EntityNotFoundException e) {
             throw new ConvertionException(e.getMessage());
         }

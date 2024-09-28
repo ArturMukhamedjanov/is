@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import islab1.exceptions.ConvertionException;
 import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,4 +38,25 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     private EventType eventType;
+
+    public void setCreator(User creator) throws ConvertionException {
+        if (creator == null) {
+            throw new ConvertionException("Creator cannot be null.");
+        }
+        this.creator = creator;
+    }
+
+    public void setName(String name) throws ConvertionException {
+        if (name == null || name.trim().isEmpty()) {
+            throw new ConvertionException("Name cannot be null or an empty string.");
+        }
+        this.name = name;
+    }
+
+    public void setMinAge(Integer minAge) throws ConvertionException {
+        if (minAge != null && minAge < 0) {
+            throw new ConvertionException("MinAge cannot be negative.");
+        }
+        this.minAge = minAge;
+    }
 }

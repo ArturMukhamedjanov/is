@@ -20,9 +20,6 @@ public class VenueMapper {
     public Venue toEntity(VenueDTO dto) throws ConvertionException {
         try{
             User creator = userRepo.getReferenceById(dto.getCreatorId());
-            if(creator == null){
-                throw new ConvertionException("Creator was not found");
-            }
             Venue venue = new Venue();
             venue.setId(dto.getId());
             venue.setCreator(creator);
@@ -30,7 +27,9 @@ public class VenueMapper {
             venue.setCapacity(dto.getCapacity());
             venue.setType(dto.getType());
             return venue;
-        }catch(EntityNotFoundException e){
+        } catch (ConvertionException e) {
+            throw e;
+        } catch(EntityNotFoundException e){
             throw new ConvertionException(e.getMessage());
         }
     }

@@ -9,8 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import islab1.models.auth.*;
-
+import islab1.exceptions.ConvertionException;
+import islab1.models.auth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +32,25 @@ public class Coordinates {
 
     @Column(nullable = false, columnDefinition = "BIGINT CHECK (y <= 329)")
     private Long y;
+
+    public void setCreator(User creator) throws ConvertionException{
+        if(creator == null){
+            throw new ConvertionException("Height cant be less then 0");
+        }
+        this.creator = creator;
+    }
+
+    public void setX(Double x) throws ConvertionException {
+        if (x != null && x > 182) {
+            throw new ConvertionException("X must be less than or equal to 182.");
+        }
+        this.x = x;
+    }
+
+    public void setY(Long y) throws ConvertionException {
+        if (y != null && y > 329) {
+            throw new ConvertionException("Y must be less than or equal to 329.");
+        }
+        this.y = y;
+    }
 }
