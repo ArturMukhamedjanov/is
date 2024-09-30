@@ -2,6 +2,8 @@ package islab1.auth.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -76,4 +78,13 @@ public class AuthenticationService {
                 .build();
     }
 
+     public User getCurrentUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepo.getUserByUsername(userDetails.getUsername());
+        return user;
+    }
+
+    public void acceptAdminRequest(AdminRequest adminRequest){
+        registerAdmin(new RegisterRequest(adminRequest.getUsername(), adminRequest.getPassword()));
+    }
 }

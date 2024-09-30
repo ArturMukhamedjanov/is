@@ -14,6 +14,7 @@ import islab1.auth.AuthenticationRequest;
 import islab1.auth.AuthenticationResponse;
 import islab1.auth.RegisterRequest;
 import islab1.auth.services.AuthenticationService;
+import islab1.models.auth.AdminRequest;
 import islab1.models.auth.Role;
 import islab1.repos.AdminRequestRepo;
 import islab1.repos.UserRepo;
@@ -24,7 +25,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService service;
+    private final AuthenticationService authenticationService;
     private final UserRepo userRepo;
     private final AdminRequestRepo adminRequestRepo;
 
@@ -34,13 +35,13 @@ public class AuthenticationController {
         if (userRepo.getUserByUsername(request.getUsername()) != null || adminRequestRepo.getAdminRequestByUsername(request.getUsername()) != null) {
             return ResponseEntity.status(400).body(new AuthenticationResponse("User with that name already exists"));
         }
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @PostMapping("/register/admin")
@@ -50,22 +51,29 @@ public class AuthenticationController {
             return ResponseEntity.status(400).body(new AuthenticationResponse("User with that name already exists"));
         }
         if (userRepo.getUsersByRole(Role.ADMIN).isEmpty()){
-            return ResponseEntity.ok(service.registerAdmin(request));
+            return ResponseEntity.ok(authenticationService.registerAdmin(request));
         }
         else{
             if (adminRequestRepo.getAdminRequestByUsername(request.getUsername()) != null) {
                 return ResponseEntity.status(400).body(new AuthenticationResponse("User with that name already exists"));
             }
-            return ResponseEntity.status(202).body(service.addRegisterAdminRequest(request));
+            return ResponseEntity.status(202).body(authenticationService.addRegisterAdminRequest(request));
         }
     }
 
     @PostMapping("/register/accept/{request_id}")
     public ResponseEntity<String> acceptRegistrationRequest(
             @PathVariable("request_id") long requestId) {
-        // Логика обработки запроса (можно добавить проверку на наличие request_id в базе)
-        
-        // Пример возврата строки
+        AdminRequest adminRequest = adminRequestRepo.getById(requestId);
+        if(adminRequest == null){
+            return ResponseEntity.status(400).body("Request with that id doesn't exists");
+        }
+        if(adminRequest.getReviewer() != null){
+            return ResponseEntity.status(400).body("Request with that id already accepted");
+        }
+        authenticationService.acceptAdminRequest(adminRequest);
+        adminRequest.setReviewer(authenticationService.getCurrentUser());
+        adminRequestRepo.save(adminRequest);
         return ResponseEntity.ok("Request with ID " + requestId + " has been accepted.");
     }
 
