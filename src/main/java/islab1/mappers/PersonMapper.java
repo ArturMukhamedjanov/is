@@ -25,7 +25,6 @@ public class PersonMapper {
             User creator = userRepo.getReferenceById(dto.getCreatorId());
             Location location = locationRepo.getReferenceById(dto.getLocationId());
             Person person = new Person();
-            person.setId(dto.getId());
             person.setCreator(creator);
             person.setEyeColor(dto.getEyeColor());
             person.setHairColor(dto.getHairColor());

@@ -9,4 +9,5 @@ public class AdminRequestDTO {
     private Long id;
     private String username;
     private String password;
+    private Long reviewerId;
 }

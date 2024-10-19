@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import islab1.exceptions.ConvertionException;
 import islab1.models.auth.User;
@@ -31,46 +36,59 @@ public class Ticket {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "creator_id")
+    @NotNull(message = "Creator cannot be null.")
     private User creator;
 
     @Column(nullable = false)
+    @NotBlank(message = "Name cannot be null or an empty string.")
     private String name;  // Поле не может быть null, строка не может быть пустой
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "coordinates_id")
+    @NotNull(message = "Coordinates cannot be null.")
     private Coordinates coordinates;  // Поле не может быть null
 
     @Column(nullable = false, updatable = false)
+    @NotNull(message = "Creation date cannot be null.")
     private ZonedDateTime creationDate;  // Поле не может быть null, генерируется автоматически
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "person_id")
+    @NotNull(message = "Person cannot be null.")
     private Person person;  // Поле не может быть null
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "event_id")
     private Event event;  // Поле может быть null
 
-    @Column(nullable = false, columnDefinition = "DOUBLE CHECK (price > 0)")  // Поле не может быть null, значение больше 0
+    @Positive(message = "Price must be greater than 0.")
+    @Column(nullable = false)
+    @NotNull(message = "Price cannot be null.")
     private Double price;
 
     @Enumerated(EnumType.STRING)
     private TicketType type;  // Поле может быть null
 
-    @Column(columnDefinition = "BIGINT CHECK (discount > 0 AND discount <= 100)")  // Поле может быть null, значение больше 0 и не больше 100
+    @Min(value = 1, message = "Discount must be greater than 0.")
+    @Max(value = 100, message = "Discount must be less than or equal to 100.")
+    @Column(nullable = true)
     private Long discount;
 
-    @Column(columnDefinition = "DOUBLE CHECK (number > 0)")  // Поле может быть null, значение больше 0
+    @Positive(message = "Number must be greater than 0.")
+    @Column(nullable = true)
     private Double number;
 
+    @NotBlank(message = "Comment cannot be null or an empty string.")
     @Column(nullable = false)
     private String comment;  // Поле не может быть null
 
+    @NotNull(message = "Refundable cannot be null.")
     @Column(nullable = false)
     private Boolean refundable;  // Поле не может быть null
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "venue_id")
+    @NotNull(message = "Venue cannot be null.")
     private Venue venue;  // Поле не может быть null
 
     // Метод для автоматической установки creationDate при создании записи

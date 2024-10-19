@@ -24,7 +24,6 @@ public class LocationMapper {
                 throw new ConvertionException("Creator was not found");
             }
             Location location = new Location();
-            location.setId(dto.getId());
             location.setCreator(creator);
             location.setX(dto.getX());
             location.setY(dto.getY());

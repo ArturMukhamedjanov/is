@@ -21,7 +21,6 @@ public class VenueMapper {
         try{
             User creator = userRepo.getReferenceById(dto.getCreatorId());
             Venue venue = new Venue();
-            venue.setId(dto.getId());
             venue.setCreator(creator);
             venue.setName(dto.getName());
             venue.setCapacity(dto.getCapacity());

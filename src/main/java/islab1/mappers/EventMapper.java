@@ -21,7 +21,6 @@ public class EventMapper {
         try {
             User creator = userRepo.getReferenceById(dto.getCreatorId());
             Event event = new Event();
-            event.setId(dto.getId());
             event.setCreator(creator);
             event.setName(dto.getName());
             event.setMinAge(dto.getMinAge());

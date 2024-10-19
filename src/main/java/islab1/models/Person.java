@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 import islab1.exceptions.ConvertionException;
 import islab1.models.auth.User;
@@ -41,36 +43,40 @@ public class Person {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @Column(nullable = true, columnDefinition = "BIGINT CHECK (height > 0)")  // Поле может быть null, значение должно быть больше 0
+    // Поле может быть null, значение должно быть больше 0
+    @Min(value = 1, message = "Height must be greater than 0")
+    @Column(nullable = true)
     private Long height;
 
-    @Column(length = 33, columnDefinition = "VARCHAR(33) CHECK (LENGTH(passport_id) >= 10)")  // Поле может быть null, длина строки должна быть от 10 до 33 символов
+    // Длина строки должна быть от 10 до 33 символов
+    @Size(min = 10, max = 33, message = "Passport ID must be between 10 and 33 characters")
+    @Column(length = 33, nullable = true)
     private String passportID;
 
-    public void setCreator(User creator) throws ConvertionException{
-        if(creator == null){
-            throw new ConvertionException("Height cant be less then 0");
+    public void setCreator(User creator) throws ConvertionException {
+        if (creator == null) {
+            throw new ConvertionException("Creator cannot be null.");
         }
         this.creator = creator;
     }
 
-    public void setHeight(Long height) throws ConvertionException{
-        if(height != null && height < 0){
-            throw new ConvertionException("Height cant be less then 0");
+    public void setHeight(Long height) throws ConvertionException {
+        if (height != null && height <= 0) {
+            throw new ConvertionException("Height must be greater than 0.");
         }
         this.height = height;
     }
 
-    public void setLocation(Location location) throws ConvertionException{
-        if(location == null){
-            throw new ConvertionException("Location cant be null");
+    public void setLocation(Location location) throws ConvertionException {
+        if (location == null) {
+            throw new ConvertionException("Location cannot be null.");
         }
         this.location = location;
     }
 
-    public void setPassportID(String passportID) throws ConvertionException{
-        if(passportID != null && (passportID.length() > 33 || passportID.length() < 10)){
-            throw new ConvertionException("passportID should be from 10 to 33 symbols");
+    public void setPassportID(String passportID) throws ConvertionException {
+        if (passportID != null && (passportID.length() > 33 || passportID.length() < 10)) {
+            throw new ConvertionException("Passport ID must be between 10 and 33 characters.");
         }
         this.passportID = passportID;
     }

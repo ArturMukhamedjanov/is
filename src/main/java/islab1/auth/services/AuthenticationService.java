@@ -1,5 +1,8 @@
 package islab1.auth.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import islab1.auth.AuthenticationRequest;
 import islab1.auth.AuthenticationResponse;
 import islab1.auth.RegisterRequest;
+import islab1.mappers.AdminRequestsMapper;
+import islab1.models.DTO.AdminRequestDTO;
 import islab1.models.auth.AdminRequest;
 import islab1.models.auth.Role;
 import islab1.models.auth.User;
@@ -26,6 +31,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final AdminRequestsMapper adminRequestsMapper;
 
     public AuthenticationResponse register(RegisterRequest request) {
         UserBuilder userBuilder = User.builder()
@@ -86,5 +92,11 @@ public class AuthenticationService {
 
     public void acceptAdminRequest(AdminRequest adminRequest){
         registerAdmin(new RegisterRequest(adminRequest.getUsername(), adminRequest.getPassword()));
+    }
+
+    public List<AdminRequestDTO> convertRequestsToDTO(List<AdminRequest> requests){
+        return requests.stream()
+            .map(adminRequestsMapper::toDto)
+            .collect(Collectors.toList());
     }
 }

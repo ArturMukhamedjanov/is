@@ -34,14 +34,15 @@ public class TicketMapper {
             User creator = userRepo.getReferenceById(dto.getCreatorId());
             Coordinates coordinates = coordinatesRepo.getReferenceById(dto.getCoordinatesId());
             Person person = personRepo.getReferenceById(dto.getPersonId());
-            Event event = eventRepo.getReferenceById(dto.getEventId());
+            Event event = null;
+            if(dto.getEventId() != null){
+                event = eventRepo.getReferenceById(dto.getEventId());
+            }
             Venue venue = venueRepo.getReferenceById(dto.getVenueId());
             Ticket ticket = new Ticket();
-            ticket.setId(dto.getId());
             ticket.setCreator(creator);
             ticket.setName(dto.getName());
             ticket.setCoordinates(coordinates);
-            ticket.setCreationDate(dto.getCreationDate());
             ticket.setPerson(person);
             ticket.setEvent(event);
             ticket.setPrice(dto.getPrice());
@@ -53,8 +54,10 @@ public class TicketMapper {
             ticket.setVenue(venue);
             return ticket;
         } catch (ConvertionException e) {
+            System.out.println(e.getMessage());
             throw e;
         } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
             throw new ConvertionException(e.getMessage());
         }
     }
@@ -67,7 +70,9 @@ public class TicketMapper {
         dto.setCoordinatesId(ticket.getCoordinates().getId());
         dto.setCreationDate(ticket.getCreationDate());
         dto.setPersonId(ticket.getPerson().getId());
-        dto.setEventId(ticket.getEvent().getId());
+        if(ticket.getEvent() != null){
+            dto.setEventId(ticket.getEvent().getId());
+        }
         dto.setPrice(ticket.getPrice());
         dto.setType(ticket.getType());
         dto.setDiscount(ticket.getDiscount());

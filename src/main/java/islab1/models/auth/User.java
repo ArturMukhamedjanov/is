@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import islab1.exceptions.ConvertionException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -69,5 +70,12 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setUsername(String username) throws ConvertionException{
+        if(username == null || username.trim().equals("")){
+            throw new ConvertionException("Username cant be empty string or null");
+        }
+        this.username = username;
     }
 }

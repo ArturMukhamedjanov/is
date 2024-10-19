@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import islab1.exceptions.ConvertionException;
 import islab1.models.auth.User;
@@ -27,15 +29,21 @@ public class Coordinates {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @Column(nullable = false, columnDefinition = "DOUBLE CHECK (x <= 182)")
+    //@Column(nullable = false, columnDefinition = "DOUBLE CHECK (x <= 182)")
+    @Column(nullable = false)
+    @Min(value = 0, message = "X must be greater than or equal to 0.")
+    @Max(value = 182, message = "X must be less than or equal to 182.")
     private Double x;
 
-    @Column(nullable = false, columnDefinition = "BIGINT CHECK (y <= 329)")
+    //@Column(nullable = false, columnDefinition = "BIGINT CHECK (y <= 329)")
+    @Column(nullable = false)
+    @Min(value = 0, message = "Y must be greater than or equal to 0.")
+    @Max(value = 329, message = "Y must be less than or equal to 329.")
     private Long y;
 
     public void setCreator(User creator) throws ConvertionException{
         if(creator == null){
-            throw new ConvertionException("Height cant be less then 0");
+            throw new ConvertionException("Creator not found");
         }
         this.creator = creator;
     }

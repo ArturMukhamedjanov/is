@@ -21,7 +21,6 @@ public class CoordinatesMapper {
         try {
             User creator = userRepo.getReferenceById(dto.getCreatorId());
             Coordinates coordinates = new Coordinates();
-            coordinates.setId(dto.getId());
             coordinates.setCreator(creator);
             coordinates.setX(dto.getX());
             coordinates.setY(dto.getY());
