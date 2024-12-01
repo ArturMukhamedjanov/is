@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.PersonJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -49,5 +50,14 @@ public class PersonMapper {
         dto.setHeight(person.getHeight());
         dto.setPassportID(person.getPassportID());
         return dto;
+    }
+
+    public Person fromJson(PersonJson json) throws ConvertionException {
+        Person person = new Person();
+        person.setEyeColor(json.getEyeColor());
+        person.setHairColor(json.getHairColor());
+        person.setHeight(json.getHeight());
+        person.setPassportID(json.getPassportID());
+        return person;
     }
 }

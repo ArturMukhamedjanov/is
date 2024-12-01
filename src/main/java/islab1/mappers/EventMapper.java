@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.EventJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -41,5 +42,13 @@ public class EventMapper {
         dto.setMinAge(event.getMinAge());
         dto.setEventType(event.getEventType());
         return dto;
+    }
+
+    public Event fromJson(EventJson json) throws ConvertionException {
+        Event event = new Event();
+        event.setName(json.getName());
+        event.setMinAge(json.getMinAge());
+        event.setEventType(json.getEventType());
+        return event;
     }
 }

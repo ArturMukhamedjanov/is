@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.VenueJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -41,6 +42,14 @@ public class VenueMapper {
         dto.setCapacity(venue.getCapacity());
         dto.setType(venue.getType());
         return dto;
+    }
+
+    public Venue fromJson(VenueJson json) throws ConvertionException {
+        Venue venue = new Venue();
+        venue.setName(json.getName());
+        venue.setCapacity(json.getCapacity());
+        venue.setType(json.getType());
+        return venue;
     }
 
 }

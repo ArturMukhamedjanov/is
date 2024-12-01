@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.LocationJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -46,5 +47,14 @@ public class LocationMapper {
         dto.setZ(location.getZ());
         dto.setName(location.getName());
         return dto;
+    }
+
+    public Location fromJson(LocationJson json) throws ConvertionException {
+        Location location = new Location();
+        location.setX(json.getX());
+        location.setY(json.getY());
+        location.setZ(json.getZ());
+        location.setName(json.getName());
+        return location;
     }
 }

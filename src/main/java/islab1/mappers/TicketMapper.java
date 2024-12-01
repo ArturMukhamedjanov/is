@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.TicketJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -82,4 +83,17 @@ public class TicketMapper {
         dto.setVenueId(ticket.getVenue().getId());
         return dto;
     }
+
+    public Ticket fromJson(TicketJson json) throws ConvertionException {
+        Ticket ticket = new Ticket();
+        ticket.setName(json.getName());
+        ticket.setPrice(json.getPrice());
+        ticket.setType(json.getType());
+        ticket.setDiscount(json.getDiscount());
+        ticket.setNumber(json.getNumber());
+        ticket.setComment(json.getComment());
+        ticket.setRefundable(json.getRefundable());
+        return ticket;
+    }
+
 }

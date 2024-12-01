@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +34,10 @@ public class LocationService {
 
     public Location getLocationById(Long id) {
         return locationRepo.getById(id);
+    }
+
+    public Optional<Location> getLocationByIdOpt(Long id) {
+        return locationRepo.findById(id);
     }
 
     public boolean existById(Long id) {
@@ -81,5 +86,9 @@ public class LocationService {
 
     public LocationDTO convertLocationToDTO(Location location) {
         return locationMapper.toDto(location);
+    }
+
+    public Location saveLocation(Location location) {
+        return locationRepo.save(location);
     }
 }

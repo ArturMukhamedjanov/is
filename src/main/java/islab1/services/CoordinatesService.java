@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +34,10 @@ public class CoordinatesService {
 
     public Coordinates getCoordinatesById(Long id) {
         return coordinatesRepo.getById(id);
+    }
+
+    public Optional<Coordinates> getCoordinatesByIdOpt(Long id) {
+        return coordinatesRepo.findById(id);
     }
 
     public boolean existById(Long id){
@@ -81,5 +86,10 @@ public class CoordinatesService {
 
     public CoordinatesDTO convertCoordinatesToDTOs(Coordinates coordinates) {
         return coordinatesMapper.toDto(coordinates);
-}
+    }
+
+    public Coordinates saveCoordinates(Coordinates coordinates) {
+        return coordinatesRepo.save(coordinates);
+    }
+
 }

@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +34,10 @@ public class VenueService {
 
     public Venue getVenueById(Long id) {
         return venueRepo.getById(id);
+    }
+
+    public Optional<Venue> getVenueByIdOpt(Long id) {
+        return venueRepo.findById(id);
     }
 
     public boolean existById(Long id) {
@@ -81,5 +86,9 @@ public class VenueService {
 
     public VenueDTO convertVenueToDTO(Venue venue) {
         return venueMapper.toDto(venue);
+    }
+
+    public Venue saveVenue(Venue venue) {
+        return venueRepo.save(venue);
     }
 }

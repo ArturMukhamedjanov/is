@@ -1,0 +1,55 @@
+{
+    "coordinates" :[
+        {
+            "x":13,
+            "y":14
+        }
+    ],
+    "persons" :[
+        {
+            "eyeColor": "BLUE",
+            "hairColor": "BLUE",
+            "location": {
+                "x":13,
+                "y":14,
+                "z":15,
+                "name": "test_name3"
+            }
+        }
+    ],
+    "tickets": [
+        {
+            "name":"test_ticket",
+            "coordinates":{
+                "x":13,
+                "y":14
+            },
+            "person":{
+                "eyeColor": "BLUE",
+                "hairColor": "BLUE",
+                "location": {
+                    "x":13,
+                    "y":14,
+                    "z":15,
+                    "name": "test_name3"
+                }
+            },
+            "event":{
+                "name":"test_event",
+                "minAge":13,
+                "eventType":"FOOTBALL"
+            },
+            "price": 13.13,
+            "type": "BUDGETARY",
+            "discount": 10,
+            "number":12,
+            "comment":"test comment",
+            "refundable":false,
+            "venue":{
+                "name":"test_venue",
+                "capacity": 10,
+                "type": "THEATRE"
+            }
+        }
+    ]
+}

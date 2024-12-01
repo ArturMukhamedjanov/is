@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -34,6 +35,10 @@ public class PersonService {
 
     public Person getPersonById(Long id) {
         return personRepo.getById(id);
+    }
+
+    public Optional<Person> getPersonByIdOpt(Long id) {
+        return personRepo.findById(id);
     }
 
     public boolean existById(Long id) {
@@ -82,5 +87,9 @@ public class PersonService {
 
     public PersonDTO convertPersonToDTO(Person person) {
         return personMapper.toDto(person);
+    }
+
+    public Person savePerson(Person person) {
+        return personRepo.save(person);
     }
 }

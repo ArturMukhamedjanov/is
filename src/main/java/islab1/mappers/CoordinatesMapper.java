@@ -2,6 +2,7 @@ package islab1.mappers;
 
 import javax.persistence.EntityNotFoundException;
 
+import islab1.models.json.CoordinatesJson;
 import org.springframework.stereotype.Component;
 
 import islab1.exceptions.ConvertionException;
@@ -40,5 +41,12 @@ public class CoordinatesMapper {
         dto.setX(coordinates.getX());
         dto.setY(coordinates.getY());
         return dto;
+    }
+
+    public Coordinates fromJson(CoordinatesJson json) throws ConvertionException{
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(json.getX());
+        coordinates.setY(json.getY());
+        return coordinates;
     }
 }

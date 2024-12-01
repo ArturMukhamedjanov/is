@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +34,10 @@ public class EventService {
 
     public Event getEventById(Long id) {
         return eventRepo.getById(id);
+    }
+
+    public Optional<Event> getEventByIdOpt(Long id) {
+        return eventRepo.findById(id);
     }
 
     public boolean existById(Long id) {
@@ -81,5 +86,9 @@ public class EventService {
 
     public EventDTO convertEventToDTO(Event event) {
         return eventMapper.toDto(event);
+    }
+
+    public Event saveEvent(Event event) {
+        return eventRepo.save(event);
     }
 }

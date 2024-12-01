@@ -1,6 +1,7 @@
 package islab1.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +34,10 @@ public class TicketService {
 
     public Ticket getTicketById(Long id) {
         return ticketRepo.getById(id);
+    }
+
+    public Optional<Ticket> getTicketByIdOpt(Long id){
+        return ticketRepo.findById(id);
     }
 
     public boolean existById(Long id) {
@@ -73,6 +78,10 @@ public class TicketService {
         return tickets.stream()
             .map(ticketMapper::toDto)
             .collect(Collectors.toList());
+    }
+
+    public Ticket saveTicket(Ticket ticket){
+        return ticketRepo.save(ticket);
     }
 
     public TicketDTO convertTicketToDTO(Ticket ticket) {
