@@ -33,6 +33,7 @@ D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\auth\RegisterRequest.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\DTO\TransactionInfoDTO.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\mappers\TicketMapper.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\json\LocationJson.java
+D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\configs\MinioConfig.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\services\CoordinatesService.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\repos\UserRepo.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\repos\TicketRepo.java
@@ -48,8 +49,10 @@ D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\configs\ApplicationConfig.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\repos\EventRepo.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\VenueType.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\DTO\CoordinatesDTO.java
+D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\services\TransactionOperationResponse.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\controllers\CoordinatesController.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\controllers\EventController.java
+D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\services\MinioService.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\EventType.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\models\json\JsonContainer.java
 D:\studyng\3 year\IS\is_lab1\src\main\java\islab1\configs\SecurityConfiguration.java

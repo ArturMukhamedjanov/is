@@ -12,4 +12,5 @@ public class TransactionInfoDTO {
     private Long userId;
     private Integer addedObjects;
     private Boolean successful;
+    private String filename;
 }

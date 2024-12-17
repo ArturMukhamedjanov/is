@@ -31,4 +31,7 @@ public class TransactionInfo {
 
     @Column(nullable = false)
     private Boolean successful;
+
+    @Column(nullable = true)
+    private String filename;
 }

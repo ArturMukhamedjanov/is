@@ -11,10 +11,13 @@ import islab1.repos.TransactionInfoRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +47,8 @@ public class TransactionInfoService {
 
     private final VenueService venueService;
     private final VenueMapper venueMapper;
+
+    private final MinioService minioService;
 
     public TransactionInfo saveTransactionInfo(TransactionInfo transactionInfo) {
         return transactionInfoRepo.save(transactionInfo);
@@ -81,8 +86,14 @@ public class TransactionInfoService {
         return transaction.map(t -> t.getCreator().equals(user)).orElse(false);
     }
 
-    @Transactional
-    public Integer executeTransaction(JsonContainer jsonContainer) throws Exception{
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public TransactionOperationResponse executeTransaction(MultipartFile file, JsonContainer jsonContainer) throws Exception{
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        try {
+            minioService.uploadFile(fileName, file);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to upload file to MinIO", e);
+        }
         Integer totalUploadedObjects = 0;
         try {
             User user = authenticationService.getCurrentUser();
@@ -96,7 +107,10 @@ public class TransactionInfoService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw e;
         }
-        return totalUploadedObjects;
+        return TransactionOperationResponse.builder()
+            .objects(totalUploadedObjects)
+            .filename(fileName)
+            .build();
     }
 
     private Coordinates processCoordinates(CoordinatesJson coordinatesJson, User user) throws Exception {

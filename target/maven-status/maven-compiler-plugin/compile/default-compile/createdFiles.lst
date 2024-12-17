@@ -39,6 +39,7 @@ islab1\configs\ApplicationConfig.class
 islab1\models\Ticket.class
 islab1\models\json\TicketJson.class
 islab1\repos\PersonRepo.class
+islab1\services\TransactionOperationResponse$TransactionOperationResponseBuilder.class
 islab1\configs\ApplicationConfig$1.class
 islab1\services\PersonService.class
 islab1\models\TransactionInfo.class
@@ -59,9 +60,11 @@ islab1\repos\CoordinatesRepo.class
 islab1\auth\RegisterRequest.class
 islab1\controllers\AuthenticationController.class
 islab1\controllers\EventController.class
+islab1\configs\MinioConfig.class
 islab1\mappers\PersonMapper.class
 islab1\repos\AdminRequestRepo.class
 islab1\models\json\VenueJson$VenueJsonBuilder.class
+islab1\services\MinioService.class
 islab1\configs\SecurityConfiguration.class
 islab1\repos\LocationRepo.class
 islab1\services\VenueService.class
@@ -83,4 +86,5 @@ islab1\mappers\AdminRequestsMapper.class
 islab1\models\Coordinates.class
 islab1\mappers\VenueMapper.class
 islab1\controllers\CoordinatesController.class
+islab1\services\TransactionOperationResponse.class
 islab1\models\json\LocationJson$LocationJsonBuilder.class

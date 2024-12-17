@@ -13,6 +13,7 @@ public class TransactionInfoMapper {
                 .userId(transaction.getCreator().getId())
                 .addedObjects(transaction.getAddedObjects())
                 .successful(transaction.getSuccessful())
+                .filename(transaction.getFilename())
                 .build();
     }
 

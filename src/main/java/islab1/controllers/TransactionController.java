@@ -7,7 +7,9 @@ import islab1.models.TransactionInfo;
 import islab1.models.auth.Role;
 import islab1.models.auth.User;
 import islab1.models.json.JsonContainer;
+import islab1.services.MinioService;
 import islab1.services.TransactionInfoService;
+import islab1.services.TransactionOperationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class TransactionController {
     private final AuthenticationService authenticationService;
     private final TransactionInfoService transactionInfoService;
     private final ObjectMapper objectMapper;
+    private final MinioService minioService;
 
     @GetMapping
     public ResponseEntity<List<TransactionInfoDTO>> getAllTransactions() {
@@ -53,6 +56,28 @@ public class TransactionController {
         return ResponseEntity.ok(transactionInfoDTO);
     }
 
+    @GetMapping("/{id}/file")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
+        User user = authenticationService.getCurrentUser();
+        Optional<TransactionInfo> transactionInfo = transactionInfoService.getTransactionInfoById(id);
+        if (transactionInfo.isEmpty()) {
+            return ResponseEntity.status(400).header("ErrMessage", "Transaction with that id does not exist").body(null);
+        }
+        if (!transactionInfoService.checkAccess(user, id)) {
+            return ResponseEntity.status(403).header("ErrMessage", "Access denied").body(null);
+        }
+        if(transactionInfo.get().getFilename() == null){
+            return ResponseEntity.status(400).header("ErrMessage", "Transaction with that id does have file").body(null);
+        }
+        byte[] file = null; 
+        try{
+            file = minioService.downloadFile(transactionInfo.get().getFilename());
+        }catch(Exception e){
+            return  ResponseEntity.status(400).header("ErrMessage", "Cant load this file").body(null);
+        }
+        return ResponseEntity.ok(file);
+    }
+
     @PostMapping
     public ResponseEntity<String> executeTransactionScript(@RequestParam("file") MultipartFile file) {
         User user = authenticationService.getCurrentUser();
@@ -69,11 +94,12 @@ public class TransactionController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body("Error while parsing file: " + e.getMessage());
         }
-        Integer result;
+        TransactionOperationResponse result;
         try {
-            result = transactionInfoService.executeTransaction(jsonContainer);
+            result = transactionInfoService.executeTransaction(file, jsonContainer);
             transactionInfo.setSuccessful(true);
-            transactionInfo.setAddedObjects(result);
+            transactionInfo.setAddedObjects(result.objects());
+            transactionInfo.setFilename(result.filename());
             transactionInfoService.saveTransactionInfo(transactionInfo);
         }catch (Exception e){
             transactionInfoService.saveTransactionInfo(transactionInfo);
